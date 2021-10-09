@@ -76,6 +76,7 @@ vq_parser.add_argument("-cutp", "--cut_power", type=float, help="Cut power", def
 vq_parser.add_argument("-sd",   "--seed", type=int, help="Seed", default=None, dest='seed')
 vq_parser.add_argument("-opt",  "--optimiser", type=str, help="Optimiser", choices=['Adam','AdamW','Adagrad','Adamax','DiffGrad','AdamP','RAdam','RMSprop'], default='Adam', dest='optimiser')
 vq_parser.add_argument("-o",    "--output", type=str, help="Output filename", default="output.png", dest='output')
+vq_parser.add_argument("-os",    "--output_suffix", type=str, help="Output filename suffix", default="", dest='output_suffix')
 vq_parser.add_argument("-vid",  "--video", action='store_true', help="Create video frames?", dest='make_video')
 vq_parser.add_argument("-zvid", "--zoom_video", action='store_true', help="Create zoom video?", dest='make_zoom_video')
 vq_parser.add_argument("-zs",   "--zoom_start", type=int, help="Zoom start iteration", default=0, dest='zoom_start')
@@ -95,6 +96,12 @@ vq_parser.add_argument("-cd",   "--cuda_device", type=str, help="Cuda device to 
 
 # Execute the parse_args() method
 args = vq_parser.parse_args()
+
+if (args.output == 'output.png'):
+    args.output = './output/' + args.prompts + '-' + args.optimiser + args.output_suffix + '.png'
+
+
+print("output file: " + args.output)
 
 if not args.prompts and not args.image_prompts:
     args.prompts = "A cute, smiling, Nerdy Rodent"
